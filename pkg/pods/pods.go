@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/test-network-function/l2discovery/l2lib/pkg/l2client"
+	"github.com/test-network-function/l2discovery-lib/pkg/l2client"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes/scheme"

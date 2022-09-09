@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	"github.com/test-network-function/l2discovery/l2lib/pkg/l2client"
+	"github.com/test-network-function/l2discovery-lib/pkg/l2client"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

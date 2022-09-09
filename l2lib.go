@@ -13,9 +13,9 @@ import (
 	"k8s.io/client-go/rest"
 
 	"github.com/sirupsen/logrus"
-	l2 "github.com/test-network-function/l2discovery/l2lib/pkg/export"
-	"github.com/test-network-function/l2discovery/l2lib/pkg/l2client"
-	"github.com/test-network-function/l2discovery/l2lib/pkg/pods"
+	l2 "github.com/test-network-function/l2discovery-exports"
+	"github.com/test-network-function/l2discovery-lib/pkg/l2client"
+	"github.com/test-network-function/l2discovery-lib/pkg/pods"
 	daemonsets "github.com/test-network-function/privileged-daemonset"
 	"github.com/yourbasic/graph"
 	v1core "k8s.io/api/core/v1"
