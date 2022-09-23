@@ -5,12 +5,12 @@ go 1.19
 require (
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.0
-	github.com/test-network-function/l2discovery-exports v0.0.0-20220909220625-69bfab4b0fc1
-	github.com/test-network-function/privileged-daemonset v1.0.0
+	github.com/test-network-function/l2discovery-exports v0.0.0-20220923161031-1d53fe9e13dc
+	github.com/test-network-function/privileged-daemonset v0.0.0-20220923160818-f61f26ba4b41
 	github.com/yourbasic/graph v0.0.0-20210606180040-8ecfec1c2869
-	k8s.io/api v0.25.0
-	k8s.io/apimachinery v0.25.0
-	k8s.io/client-go v0.25.0
+	k8s.io/api v0.25.2
+	k8s.io/apimachinery v0.25.2
+	k8s.io/client-go v0.25.2
 )
 
 require (
