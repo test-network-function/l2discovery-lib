@@ -241,11 +241,12 @@ func (config *L2DiscoveryConfig) createL2InternalGraph(ptpInterfacesOnly bool) e
 				w := config.ClusterMacToInt[mac]
 
 				if ptpInterfacesOnly &&
-					config.PtpIfList[v].IfPTPCaps.HwRx &&
-					config.PtpIfList[v].IfPTPCaps.HwTx &&
-					config.PtpIfList[v].IfPTPCaps.HwRawClock {
-					config.L2ConnectivityMap.AddBoth(v, w)
+					(!config.PtpIfList[v].IfPTPCaps.HwRx ||
+						!config.PtpIfList[v].IfPTPCaps.HwTx ||
+						!config.PtpIfList[v].IfPTPCaps.HwRawClock) {
+					continue
 				}
+				config.L2ConnectivityMap.AddBoth(v, w)
 			}
 		}
 	}
