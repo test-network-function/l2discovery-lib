@@ -243,7 +243,10 @@ func (config *L2DiscoveryConfig) createL2InternalGraph(ptpInterfacesOnly bool) e
 				if ptpInterfacesOnly &&
 					(!config.PtpIfList[v].IfPTPCaps.HwRx ||
 						!config.PtpIfList[v].IfPTPCaps.HwTx ||
-						!config.PtpIfList[v].IfPTPCaps.HwRawClock) {
+						!config.PtpIfList[v].IfPTPCaps.HwRawClock ||
+						!config.PtpIfList[w].IfPTPCaps.HwRx ||
+						!config.PtpIfList[w].IfPTPCaps.HwTx ||
+						!config.PtpIfList[w].IfPTPCaps.HwRawClock) {
 					continue
 				}
 				config.L2ConnectivityMap.AddBoth(v, w)
