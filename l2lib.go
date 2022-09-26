@@ -163,7 +163,7 @@ func (config *L2DiscoveryConfig) DiscoverL2Connectivity(ptpInterfacesOnly bool) 
 	if config.L2DsMode == Managed {
 		_, err = daemonsets.CreateDaemonSet(L2DiscoveryDsName, L2DiscoveryNsName, L2DiscoveryContainerName, l2DiscoveryImage, timeoutDaemon)
 		if err != nil {
-			logrus.Errorf("error creating l2 discovery daemonset, err=%s", err)
+			return fmt.Errorf("error creating l2 discovery daemonset, err=%s", err)
 		}
 	}
 	// Sleep a short time to allow discovery to happen (first report after 5s)
