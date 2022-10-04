@@ -237,19 +237,20 @@ func (config *L2DiscoveryConfig) createL2InternalGraph(ptpInterfacesOnly bool) e
 	for _, aPod := range config.L2DiscoveryPods {
 		for iface, ifaceMap := range config.DiscoveryMap[aPod.Spec.NodeName][ExperimentalEthertype] {
 			for mac := range ifaceMap.Remote {
-				v := config.ClusterIndexToInt[l2.IfClusterIndex{InterfaceName: iface, NodeName: aPod.Spec.NodeName}]
-				w := config.ClusterMacToInt[mac]
-
-				if ptpInterfacesOnly &&
-					(!config.PtpIfList[v].IfPTPCaps.HwRx ||
-						!config.PtpIfList[v].IfPTPCaps.HwTx ||
-						!config.PtpIfList[v].IfPTPCaps.HwRawClock ||
-						!config.PtpIfList[w].IfPTPCaps.HwRx ||
-						!config.PtpIfList[w].IfPTPCaps.HwTx ||
-						!config.PtpIfList[w].IfPTPCaps.HwRawClock) {
-					continue
+				if v, ok := config.ClusterIndexToInt[l2.IfClusterIndex{InterfaceName: iface, NodeName: aPod.Spec.NodeName}]; ok {
+					if w, ok := config.ClusterMacToInt[mac]; ok {
+						if ptpInterfacesOnly &&
+							(!config.PtpIfList[v].IfPTPCaps.HwRx ||
+								!config.PtpIfList[v].IfPTPCaps.HwTx ||
+								!config.PtpIfList[v].IfPTPCaps.HwRawClock ||
+								!config.PtpIfList[w].IfPTPCaps.HwRx ||
+								!config.PtpIfList[w].IfPTPCaps.HwTx ||
+								!config.PtpIfList[w].IfPTPCaps.HwRawClock) {
+							continue
+						}
+						config.L2ConnectivityMap.AddBoth(v, w)
+					}
 				}
-				config.L2ConnectivityMap.AddBoth(v, w)
 			}
 		}
 	}
