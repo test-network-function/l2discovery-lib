@@ -272,8 +272,9 @@ func (config *L2DiscoveryConfig) getInterfacesReceivingPTP(ptpInterfacesOnly boo
 				continue
 			}
 			aPortGettingPTP := &l2.PtpIf{}
-			aPortGettingPTP.IfName = ifaceMap.Local.IfName
+			aPortGettingPTP.Iface = ifaceMap.Local
 			aPortGettingPTP.NodeName = aPod.Spec.NodeName
+			aPortGettingPTP.InterfaceName = aPortGettingPTP.Iface.IfName
 
 			if ptpInterfacesOnly &&
 				(!aPortGettingPTP.IfPTPCaps.HwRx ||
