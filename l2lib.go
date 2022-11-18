@@ -28,6 +28,8 @@ func init() {
 type L2Info interface {
 	// list of cluster interfaces indexed with a simple integer (X) for readability in the graph
 	GetPtpIfList() []*l2.PtpIf
+	// list of unfiltered cluster interfaces indexed with a simple integer (X) for readability in the graph
+	GetPtpIfListUnfiltered() map[string]*l2.PtpIf
 	// LANs identified in the graph
 	GetLANs() *[][]int
 	// List of port receiving PTP frames (assuming valid GM signal received)
@@ -91,6 +93,8 @@ type L2DiscoveryConfig struct {
 	MaxL2GraphSize int
 	// list of cluster interfaces indexed with a simple integer (X) for readability in the graph
 	PtpIfList []*l2.PtpIf
+	// list of unfiltered cluster interfaces indexed with a simple integer (X) for readability in the graph
+	PtpIfListUnfiltered map[string]*l2.PtpIf
 	// list of L2discovery daemonset pods
 	L2DiscoveryPods map[string]*v1core.Pod
 	// Mapping between clusterwide interface index and Mac address
@@ -117,6 +121,9 @@ var GlobalL2DiscoveryConfig L2DiscoveryConfig
 
 func (config *L2DiscoveryConfig) GetPtpIfList() []*l2.PtpIf {
 	return config.PtpIfList
+}
+func (config *L2DiscoveryConfig) GetPtpIfListUnfiltered() map[string]*l2.PtpIf {
+	return config.PtpIfListUnfiltered
 }
 func (config *L2DiscoveryConfig) GetLANs() *[][]int {
 	return config.LANs
@@ -150,6 +157,7 @@ func (config *L2DiscoveryConfig) reset() {
 	GlobalL2DiscoveryConfig.ClusterMacToInt = make(map[string]int)
 	GlobalL2DiscoveryConfig.ClusterIndexToInt = make(map[l2.IfClusterIndex]int)
 	GlobalL2DiscoveryConfig.ClusterIndexes = make(map[string]l2.IfClusterIndex)
+	GlobalL2DiscoveryConfig.PtpIfListUnfiltered = make(map[string]*l2.PtpIf)
 }
 
 // Discovers the L2 connectivity using l2discovery daemonset
@@ -325,9 +333,7 @@ func (config *L2DiscoveryConfig) updateMaps(disc map[string]map[string]*l2.Neigh
 		if _, ok := config.ClusterMacToInt[ifaceData.Local.IfMac.Data]; ok {
 			continue
 		}
-		if config.isSkipped(ifaceData.Local.IfName) {
-			continue
-		}
+
 		aInterface := l2.PtpIf{}
 		aInterface.NodeName = nodeName
 		aInterface.InterfaceName = ifaceData.Local.IfName
@@ -339,6 +345,12 @@ func (config *L2DiscoveryConfig) updateMaps(disc map[string]map[string]*l2.Neigh
 				!aInterface.IfPTPCaps.HwRawClock) {
 			continue
 		}
+		config.PtpIfListUnfiltered[ifaceData.Local.IfMac.Data] = &aInterface
+
+		if config.isSkipped(ifaceData.Local.IfName) {
+			continue
+		}
+
 		// create maps
 		config.ClusterMacToInt[ifaceData.Local.IfMac.Data] = *index
 		config.ClusterIndexToInt[l2.IfClusterIndex{InterfaceName: ifaceData.Local.IfName, NodeName: nodeName}] = *index
