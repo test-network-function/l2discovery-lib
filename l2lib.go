@@ -155,7 +155,7 @@ func (config *L2DiscoveryConfig) reset() {
 // Discovers the L2 connectivity using l2discovery daemonset
 func (config *L2DiscoveryConfig) DiscoverL2Connectivity(ptpInterfacesOnly bool) error {
 	GlobalL2DiscoveryConfig.reset()
-
+	GlobalL2DiscoveryConfig.InitSkippedInterfaces()
 	// initializes clusterwide ptp interfaces
 	var err error
 	// Create L2 discovery daemonset
@@ -296,13 +296,38 @@ func (config *L2DiscoveryConfig) createMaps(disc map[string]map[string]*l2.Neigh
 	config.getInterfacesReceivingPTP(ptpInterfacesOnly)
 }
 
+// retrieves interfaces to skip in the cluster
+func (config *L2DiscoveryConfig) InitSkippedInterfaces() {
+	ifs, isSet := os.LookupEnv("SKIP_INTERFACES")
+
+	if isSet {
+		tokens := strings.Split(ifs, ",")
+		for _, token := range tokens {
+			token = strings.TrimSpace(token)
+			config.SkippedInterfaces = append(config.SkippedInterfaces, token)
+		}
+	}
+	logrus.Infof("Will skip the following interfaces in every nodes: %v", config.SkippedInterfaces)
+}
+
+func (config *L2DiscoveryConfig) isSkipped(aIfToCheck string) bool {
+	for _, ifName := range config.SkippedInterfaces {
+		if aIfToCheck == ifName {
+			return true
+		}
+	}
+	return false
+}
+
 // updates Mapping tables between interfaces index, mac address, and graph integer indexes for a given ethertype
 func (config *L2DiscoveryConfig) updateMaps(disc map[string]map[string]*l2.Neighbors, nodeName string, index *int, ethertype string, ptpInterfacesOnly bool) {
 	for _, ifaceData := range disc[ethertype] {
 		if _, ok := config.ClusterMacToInt[ifaceData.Local.IfMac.Data]; ok {
 			continue
 		}
-
+		if config.isSkipped(ifaceData.Local.IfName) {
+			continue
+		}
 		aInterface := l2.PtpIf{}
 		aInterface.NodeName = nodeName
 		aInterface.InterfaceName = ifaceData.Local.IfName
