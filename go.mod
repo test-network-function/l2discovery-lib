@@ -6,7 +6,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.0
 	github.com/test-network-function/l2discovery-exports v0.0.1
-	github.com/test-network-function/privileged-daemonset v0.0.4
+	github.com/test-network-function/privileged-daemonset v0.0.8
 	github.com/yourbasic/graph v0.0.0-20210606180040-8ecfec1c2869
 	k8s.io/api v0.26.1
 	k8s.io/apimachinery v0.26.1
