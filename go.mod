@@ -1,13 +1,11 @@
 module github.com/test-network-function/l2discovery-lib
 
 go 1.21.2
-toolchain go1.21.5
-
 require (
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/test-network-function/l2discovery-exports v0.0.3
-	github.com/test-network-function/privileged-daemonset v1.0.14
+	github.com/test-network-function/privileged-daemonset v1.0.19
 	github.com/yourbasic/graph v0.0.0-20210606180040-8ecfec1c2869
 	k8s.io/api v0.29.0
 	k8s.io/apimachinery v0.29.0
@@ -45,7 +43,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/klog/v2 v2.110.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00 // indirect
-	k8s.io/utils v0.0.0-20230726121419-3b25d923346b // indirect
+	k8s.io/utils v0.0.0-20231127182322-b307cd553661 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
