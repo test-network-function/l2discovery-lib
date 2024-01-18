@@ -9,7 +9,7 @@ require (
 	github.com/test-network-function/l2discovery-exports v0.0.3
 	github.com/test-network-function/privileged-daemonset v1.0.14
 	github.com/yourbasic/graph v0.0.0-20210606180040-8ecfec1c2869
-	k8s.io/api v0.28.3
+	k8s.io/api v0.28.4
 	k8s.io/apimachinery v0.29.0
 	k8s.io/client-go v0.28.3
 )
