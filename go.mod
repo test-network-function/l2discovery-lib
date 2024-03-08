@@ -1,13 +1,11 @@
 module github.com/test-network-function/l2discovery-lib
 
 go 1.21.2
-toolchain go1.22.0
-
 require (
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/test-network-function/l2discovery-exports v0.0.3
-	github.com/test-network-function/privileged-daemonset v1.0.21
+	github.com/test-network-function/privileged-daemonset v1.0.22
 	github.com/yourbasic/graph v0.0.0-20210606180040-8ecfec1c2869
 	k8s.io/api v0.29.2
 	k8s.io/apimachinery v0.29.2
